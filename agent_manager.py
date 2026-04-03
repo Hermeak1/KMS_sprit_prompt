@@ -60,7 +60,11 @@ def check_stats(stat: str) -> str:
 
 @tool
 def check_inventory(item: str) -> str:
-    """플레이어 인벤토리에서 아이템 수량을 확인한다"""
+    """플레이어 인벤토리에서 아이템 또는 메소 수량을 확인한다.
+    메소 조회 시 item='메소' 로 입력한다.
+    가능한 값: 물약, 마나물약, 메소
+    예시: item='메소', item='물약'
+    """
     count = game_state["inventory"].get(item, 0)
     return f"{item} {count}개 보유 중"
 
@@ -68,8 +72,8 @@ def check_inventory(item: str) -> str:
 def find_shop(item: str) -> str:
     """아이템을 살 수 있는 상점 위치를 찾는다"""
     shop_map = {
-        "물약": "헤네시스 약사 NPC",
-        "마나물약": "헤네시스 약사 NPC",
+        "물약": "헤네시스 물약상점 NPC",
+        "마나물약": "헤네시스 물약상점 NPC",
         "장비": "커닝시티 상점"
     }
     return shop_map.get(item, "근처 마을 상점에서 구매 가능")
