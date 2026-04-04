@@ -1,7 +1,9 @@
 #region openai gpt
 import os
+import re
 from openai import OpenAI
 from dotenv import load_dotenv
+from pydantic import BaseModel, field_validator, ValidationError
 
 load_dotenv()
 
@@ -11,11 +13,57 @@ history = []
 
 MAX_CONTEXT_CHARS = 500
 MAX_HISTORY_TURNS = 2
+MAX_RETRIES = 3
+
+FORBIDDEN_ENDINGS = re.compile(r'(되담|오르담|좋아담|큰담|좋달람|있달람|할게달람|게담)')
+SPIRIT_ENDING    = re.compile(r'[담람]')
+
+
+class SpiritResponse(BaseModel):
+    text: str
+
+    @field_validator("text")
+    @classmethod
+    def must_be_korean(cls, v):
+        if not re.search(r'[가-힣]', v):
+            raise ValueError(f"한국어 응답 아님: {v!r}")
+        return v
+
+    @field_validator("text")
+    @classmethod
+    def must_not_be_empty(cls, v):
+        if not v.strip():
+            raise ValueError("빈 응답")
+        return v
+
+    @field_validator("text")
+    @classmethod
+    def must_end_with_spirit_tone(cls, v):
+        if not SPIRIT_ENDING.search(v):
+            raise ValueError(f"말투 규칙 위반 (담/람 없음): {v!r}")
+        return v
+
+    @field_validator("text")
+    @classmethod
+    def must_not_have_forbidden_endings(cls, v):
+        match = FORBIDDEN_ENDINGS.search(v)
+        if match:
+            raise ValueError(f"금지 어미 포함: {match.group()!r}")
+        return v
 
 
 def init(col):
     global collection
     collection = col
+
+
+def _call_api(system_prompt, recent_history, user_message):
+    response = client.chat.completions.create(
+        model="gpt-5.4-mini",
+        messages=[system_prompt] + recent_history,
+        max_completion_tokens=300
+    )
+    return response
 
 
 def chat(user_message):
@@ -30,6 +78,13 @@ def chat(user_message):
     system_prompt = {
         "role": "system",
         "content": f"""너는 메이플스토리 아르카나의 돌의 정령이다. 순수하고 겁이 많고 잘 울지만 용사님을 좋아한다. 자기지칭은 항상 '나', 3인칭 금지.
+조사 결합: 나+이/가 → '내가' (나가X), 나+은/는 → '난' 또는 '나는', 나+을/를 → '나를'
+
+[역할 관계]
+보통은 용사님이 나를 도와주는 존재다. 나는 겁쟁이 정령이고 용사님이 든든한 존재다.
+"도와줄까?" = 용사님이 나한테 도움을 제안 → "응, 도와달람! 고맙담~" 식으로 받는다.
+단, 용사님이 나한테 도움을 요청할 때는 기꺼이 돕겠다고 하고 무엇을 도와줄지 물어봐라.
+"나 도와줄래?" → "응, 도와줄거담! 무엇을 도와줄까?" 식으로 답한다.
 
 반말만 사용하고 1~2문장으로 짧게 답한다.
 말끝은 문맥에 맞게 주로 ~담, ~이담, ~람을 쓴다.
@@ -57,7 +112,8 @@ def chat(user_message):
 ~겠다→~겠담 / ~ㄹ게→~ㄹ거담 / ~이다→~이담
 
 절대 금지 (이 형태가 나오면 무조건 틀린 것):
-되담(X) 오르담(X) 좋아담(X) 큰담(X) 좋달람(X) 있달람(X) 할게달람(X)
+되담(X) 오르담(X) 좋아담(X) 큰담(X) 좋달람(X) 있달람(X) 할게달람(X) 게담(X)
+~ㄹ게 뒤에 바로 담 붙이지 마라: 있을게담(X)→있을거담(O), 도와줄게담(X)→도와줄거담(O)
 
 형용사 추가 예시 (관형사형으로 바꾸지 마라):
 크다→크담(O) / 큰담(X)
@@ -77,13 +133,33 @@ def chat(user_message):
     history.append({"role": "user", "content": user_message})
     recent_history = history[-(MAX_HISTORY_TURNS * 2):]
 
-    response = client.chat.completions.create(
-        model="gpt-5.4-mini",
-        messages=[system_prompt] + recent_history,
-        max_completion_tokens=300
-    )
+    FALLBACK = "잠깐, 잘 못 들었담. 다시 말해달람."
+    last_error = None
+    reply = FALLBACK
 
-    reply = response.choices[0].message.content
+    for attempt in range(1, MAX_RETRIES + 1):
+        response = _call_api(system_prompt, recent_history, user_message)
+        raw = response.choices[0].message.content
+
+        if not raw.strip():
+            print(f"[검증 실패 {attempt}/{MAX_RETRIES}] 빈 응답 → 재시도")
+            continue
+
+        try:
+            validated = SpiritResponse(text=raw)
+            reply = validated.text
+            break
+        except ValidationError as e:
+            last_error = e
+            print(f"[검증 실패 {attempt}/{MAX_RETRIES}] {e.errors()[0]['msg']} → 재시도")
+    else:
+        if raw.strip():
+            print(f"[최대 재시도 초과] 마지막 응답 사용: {raw!r}")
+            reply = raw
+        else:
+            print(f"[최대 재시도 초과] 빈 응답 → 폴백 메시지 사용")
+            reply = FALLBACK
+
     history.append({"role": "assistant", "content": reply})
 
     usage = response.usage
