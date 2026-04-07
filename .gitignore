@@ -30,3 +30,22 @@ Thumbs.db
 
 # ChromaDB
 chroma/
+
+# Unity
+unity/ArcanaScene/Library/
+unity/ArcanaScene/Temp/
+unity/ArcanaScene/Obj/
+unity/ArcanaScene/Build/
+unity/ArcanaScene/Builds/
+unity/ArcanaScene/Logs/
+unity/ArcanaScene/UserSettings/
+unity/ArcanaScene/MemoryCaptures/
+unity/ArcanaScene/.vsconfig
+unity/ArcanaScene/*.csproj
+unity/ArcanaScene/*.sln
+unity/ArcanaScene/*.suo
+unity/ArcanaScene/*.tmp
+unity/ArcanaScene/*.user
+unity/ArcanaScene/Assets/AssetStoreTools*
+unity/ArcanaScene/Assets/TextMesh Pro/Examples & Extras/
+unity/ArcanaScene/Assets/TextMesh Pro/Examples & Extras.meta

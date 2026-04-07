@@ -1,0 +1,57 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\tjm66\\Desktop\\deeplearning_utils\\python\\KMS_sprit_prompt\\unity\\ArcanaScene\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{092F3113-7E34-A66F-8029-1694A184CB3F}|Assembly-CSharp.csproj|c:\\users\\tjm66\\desktop\\deeplearning_utils\\python\\kms_sprit_prompt\\unity\\arcanascene\\assets\\scripts\\spiritchat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{092F3113-7E34-A66F-8029-1694A184CB3F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\spiritchat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SpiritChat.cs",
+              "DocumentMoniker": "C:\\Users\\tjm66\\Desktop\\deeplearning_utils\\python\\KMS_sprit_prompt\\unity\\ArcanaScene\\Assets\\Scripts\\SpiritChat.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SpiritChat.cs",
+              "ToolTip": "C:\\Users\\tjm66\\Desktop\\deeplearning_utils\\python\\KMS_sprit_prompt\\unity\\ArcanaScene\\Assets\\Scripts\\SpiritChat.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SpiritChat.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA7wBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T16:54:38.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
