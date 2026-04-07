@@ -61,25 +61,12 @@ python server.py        # http://127.0.0.1:8080
 
 ## 파일 구조
 
-```
-KMS_sprit_prompt/
-├── NPC_manager.py      # RAG 챗봇 로직 + Pydantic 검증
-├── agent_manager.py    # LangGraph 에이전트
-├── api_manager.py      # OpenAI 임베딩 설정
-├── crawler.py          # 나무위키 크롤링 + ChromaDB 세팅
-├── app.py              # Gradio UI
-├── server.py           # FastAPI 서버 (Unity 연동)
-├── main.py             # 진입점
-├── test_agent.py       # 에이전트 테스트
-├── unity/ArcanaScene/  # Unity 2D 프로젝트
-│   └── Assets/Scripts/SpiritChat.cs   # HTTP 통신 클라이언트
-├── requirements.txt
-└── README.md
-```
+![filestructure.png](uml/filestructure.png)
 
 ---
 
 ## 구조
+![sequence.png](uml/sequence.png)![component_diag.png](uml/component_diag.png)
 
 **RAG 챗봇 (NPC_manager.py)**
 ```
@@ -118,14 +105,14 @@ NPC_manager.chat()
 
 ## 만들면서 고민한 것들
 ```
-- RAG 없이 선 테스트
+- RAG 없이 테스트
 프롬프트만으로 돌의 정령 캐릭터를 구현하면 세계관 기반 질문에서 엉뚱한 답을 내거나 말투가 깨지는 경우가 종종 발생. 나무위키에서 아르카나 스토리 데이터를 직접 크롤링해 ChromaDB에 구축한 뒤로는 퀘스트, 등장인물 관련 질문에도 정확하게 답하기 시작.
 
 - 모델 nano VS mini
 처음엔 비용 절감을 위해 gpt-5.4-nano로 먼저 테스트해 보았고, 말투 규칙 준수가 불안정하여 "좋달람" 같은 잘못된 어미가 지속적으로 나왔음. 
 mini로 변경 후 규칙 적용이 안정화되어 최종 채택. 토큰 단가는 높지만 품질 차이가 명확했음.
 
-- 말투 잡는 게 생각보다 오래 걸림
+- 말투 교정
 처음엔 "~담, ~람 어미 써줘" 정도만 프롬프트에 넣었지만 "정령들담", "정령들이달람" 같은 어색한 표현이 계속 나왔음. 허용/금지 예시를 few-shot 형식으로 정리하고 나서야 안정되었음.
 ```
 
