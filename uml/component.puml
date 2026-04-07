@@ -1,0 +1,41 @@
+@startuml component
+
+skinparam componentStyle rectangle
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontName Arial
+
+title 돌의 정령 챗봇 - 컴포넌트 다이어그램
+
+package "Client" {
+    [Unity\nSpiritChat.cs] as Unity
+    [Gradio\napp.py] as Gradio
+}
+
+package "Server" {
+    [FastAPI\nserver.py] as ApiServer
+}
+
+package "Core" {
+    [NPC_manager.py\nRAG + Pydantic 검증] as NPC
+    [agent_manager.py\nLangGraph ReAct] as Agent
+    [crawler.py\n나무위키 크롤링] as Crawler
+    [api_manager.py\nOpenAI Embedding] as API
+}
+
+database "ChromaDB\nVector DB" as DB
+cloud "OpenAI\nGPT-5.4-mini" as GPT
+[namu.wiki] as Wiki
+
+Unity  -->  ApiServer : HTTP POST /chat
+Gradio -->  NPC       : 직접 호출
+ApiServer -->  NPC
+
+NPC    -->  DB
+NPC    -->  GPT
+Agent  -->  GPT
+Crawler --> Wiki   : 크롤링
+Crawler --> DB     : 저장
+Crawler --> API
+API    --> GPT
+
+@enduml

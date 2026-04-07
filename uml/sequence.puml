@@ -1,0 +1,42 @@
+@startuml sequence
+
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontName Arial
+skinparam sequenceMessageAlign center
+
+title 돌의 정령 챗봇 - 시퀀스 다이어그램
+
+actor User
+participant "Unity / Gradio" as Client
+participant "FastAPI\nserver.py" as Server
+participant "NPC_manager.py" as NPC
+participant "ChromaDB" as DB
+participant "GPT-5.4-mini" as GPT
+participant "Pydantic\nValidator" as Val
+
+User -> Client : 메시지 입력
+Client -> Server : POST /chat\n{message, session_id}
+Server -> NPC : chat(message)
+
+NPC -> DB : query(message, n=2)
+DB --> NPC : 관련 문서 반환
+
+NPC -> GPT : system_prompt + context + history
+GPT --> NPC : 응답 텍스트
+
+loop 최대 3회 재시도
+    NPC -> Val : SpiritResponse(text)
+    alt 검증 통과
+        Val --> NPC : validated
+    else 검증 실패\n(금지어미 / 영어 / 빈 응답)
+        Val --> NPC : ValidationError
+        NPC -> GPT : 재요청
+        GPT --> NPC : 응답 텍스트
+    end
+end
+
+NPC --> Server : reply + token usage
+Server --> Client : ChatResponse JSON
+Client --> User : 말풍선 출력
+
+@enduml
