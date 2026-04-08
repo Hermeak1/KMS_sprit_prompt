@@ -1,0 +1,44 @@
+@startuml filestructure
+
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontName Arial
+skinparam Legend {
+    BackgroundColor #FAFAFA
+    BorderColor #CCCCCC
+}
+
+title 돌의 정령 챗봇 - 파일 구조
+
+@startsalt
+{
+{T
++ KMS_sprit_prompt/
+++ main.py                    <i>진입점 (크롤링 + ChromaDB + Gradio 실행)</i>
+++ crawler.py                 <i>나무위키 크롤링 + ChromaDB 세팅</i>
+++ api_manager.py             <i>OpenAI 임베딩 설정</i>
+++ NPC_manager.py             <i>RAG 챗봇 로직 + Pydantic 검증</i>
+++ agent_manager.py           <i>LangGraph ReAct 에이전트</i>
+++ app.py                     <i>Gradio UI</i>
+++ server.py                  <i>FastAPI 서버 (Unity 연동)</i>
+++ test_agent.py              <i>에이전트 테스트</i>
+++ spirit.png                 <i>NPC 아바타 이미지</i>
+++ requirements.txt
+++ .env                       <i>API 키 (Git 제외)</i>
+++ .gitignore
+++ README.md
+++ uml/
++++ component.puml            <i>컴포넌트 다이어그램</i>
++++ sequence.puml             <i>시퀀스 다이어그램</i>
++++ filestructure.puml        <i>파일 구조 다이어그램</i>
+++ unity/
++++ ArcanaScene/
+++++ Assets/
++++++ Scripts/
+++++++ SpiritChat.cs          <i>Unity HTTP 통신 클라이언트</i>
+++++ Packages/
+++++ ProjectSettings/
+}
+}
+@endsalt
+
+@enduml

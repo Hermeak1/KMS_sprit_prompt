@@ -49,3 +49,6 @@ unity/ArcanaScene/*.user
 unity/ArcanaScene/Assets/AssetStoreTools*
 unity/ArcanaScene/Assets/TextMesh Pro/Examples & Extras/
 unity/ArcanaScene/Assets/TextMesh Pro/Examples & Extras.meta
+
+#result file
+eval_result_*.json
