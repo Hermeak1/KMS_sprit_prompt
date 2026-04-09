@@ -1,8 +1,48 @@
 @startuml sequence
 
-skinparam backgroundColor #FAFAFA
-skinparam defaultFontName Arial
+skinparam monochrome false
+skinparam backgroundColor #191A1C
+skinparam defaultFontName "Malgun Gothic"
 skinparam sequenceMessageAlign center
+
+skinparam defaultFontColor #E0E0E0
+skinparam arrowColor #7EC8E3
+skinparam arrowFontColor #E0E0E0
+
+skinparam participant {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam actor {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam sequence {
+    LifeLineBorderColor #555555
+    GroupBackgroundColor #252628
+    GroupBorderColor #555555
+    GroupFontColor #E0E0E0
+    GroupHeaderFontColor #7EC8E3
+    DividerBackgroundColor #252628
+    DividerBorderColor #555555
+    DividerFontColor #E0E0E0
+    ReferenceBackgroundColor #252628
+    ReferenceBorderColor #555555
+}
+
+skinparam note {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam title {
+    FontColor #E0E0E0
+}
 
 title 돌의 정령 챗봇 - 시퀀스 다이어그램
 
@@ -15,6 +55,7 @@ participant "GPT-5.4-mini" as GPT
 participant "Pydantic\nValidator" as Val
 
 User -> Client : 메시지 입력
+Client -> Client : 플레이어 말풍선 표시\n(입력 텍스트 즉시 반영)
 Client -> Server : POST /chat\n{message, session_id}
 Server -> NPC : chat(message)
 
@@ -37,6 +78,7 @@ end
 
 NPC --> Server : reply + token usage
 Server --> Client : ChatResponse JSON
-Client --> User : 말풍선 출력
+Client --> Client : NPC 말풍선 표시\n(자동 크기 조절)
+Client --> User : 화면 출력
 
 @enduml

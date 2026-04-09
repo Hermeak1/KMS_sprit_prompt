@@ -1,44 +1,49 @@
 @startuml filestructure
 
-skinparam backgroundColor #FAFAFA
-skinparam defaultFontName Arial
-skinparam Legend {
-    BackgroundColor #FAFAFA
-    BorderColor #CCCCCC
+skinparam monochrome false
+skinparam backgroundColor #191A1C
+skinparam defaultFontName "Malgun Gothic"
+skinparam defaultFontColor #E0E0E0
+
+skinparam note {
+    BackgroundColor #252628
+    BorderColor #555555
+    FontColor #E0E0E0
+}
+
+skinparam title {
+    FontColor #E0E0E0
 }
 
 title 돌의 정령 챗봇 - 파일 구조
 
-@startsalt
-{
-{T
-+ KMS_sprit_prompt/
-++ main.py                    <i>진입점 (크롤링 + ChromaDB + Gradio 실행)</i>
-++ crawler.py                 <i>나무위키 크롤링 + ChromaDB 세팅</i>
-++ api_manager.py             <i>OpenAI 임베딩 설정</i>
-++ NPC_manager.py             <i>RAG 챗봇 로직 + Pydantic 검증</i>
-++ agent_manager.py           <i>LangGraph ReAct 에이전트</i>
-++ app.py                     <i>Gradio UI</i>
-++ server.py                  <i>FastAPI 서버 (Unity 연동)</i>
-++ test_agent.py              <i>에이전트 테스트</i>
-++ spirit.png                 <i>NPC 아바타 이미지</i>
-++ requirements.txt
-++ .env                       <i>API 키 (Git 제외)</i>
-++ .gitignore
-++ README.md
-++ uml/
-+++ component.puml            <i>컴포넌트 다이어그램</i>
-+++ sequence.puml             <i>시퀀스 다이어그램</i>
-+++ filestructure.puml        <i>파일 구조 다이어그램</i>
-++ unity/
-+++ ArcanaScene/
-++++ Assets/
-+++++ Scripts/
-++++++ SpiritChat.cs          <i>Unity HTTP 통신 클라이언트</i>
-++++ Packages/
-++++ ProjectSettings/
-}
-}
-@endsalt
+note as N1
+<b>KMS_sprit_prompt/</b>
+├── main.py                                                    <i>진입점 (크롤링 + ChromaDB + Gradio 실행)</i>
+├── crawler.py                                                <i>나무위키 크롤링 + ChromaDB 세팅</i>
+├── api_manager.py                                       <i>OpenAI 임베딩 설정</i>
+├── NPC_manager.py                                    <i>RAG 챗봇 로직 + Pydantic 검증</i>
+├── agent_manager.py                                   <i>LangGraph ReAct 에이전트</i>
+├── app.py                                                      <i>Gradio UI</i>
+├── server.py                                                  <i>FastAPI 서버 (Unity 연동)</i>
+├── test_agent.py                                           <i>에이전트 테스트</i>
+├── test_evaluation.py                                   <i>모델 비교 정량 평가 (말투유지율 / 비용 / 속도)</i>
+├── spirit.png                                                  <i>NPC 아바타 이미지</i>
+├── requirements.txt
+├── .env                                                          <i>API 키 (Git 제외)</i>
+├── .gitignore
+├── README.md
+├── uml/
+│   ├── component.puml                                       <i>컴포넌트 다이어그램</i>
+│   ├── sequence.puml                                         <i>시퀀스 다이어그램</i>
+│   └── filestructure.puml                                      <i>파일 구조 다이어그램</i>
+└── unity/
+    └── ArcanaScene/
+        ├── Assets/
+        │   └── Scripts/
+        │       └── SpiritChat.cs                              <i>HTTP 통신 / 플레이어·NPC 말풍선 / 바운스 애니메이션</i>
+        ├── Packages/
+        └── ProjectSettings/
+end note
 
 @enduml

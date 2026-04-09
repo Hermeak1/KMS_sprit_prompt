@@ -1,8 +1,47 @@
 @startuml component
 
+skinparam monochrome false
 skinparam componentStyle rectangle
-skinparam backgroundColor #FAFAFA
-skinparam defaultFontName Arial
+skinparam backgroundColor #191A1C
+skinparam defaultFontName "Malgun Gothic"
+
+skinparam defaultFontColor #E0E0E0
+skinparam arrowColor #7EC8E3
+skinparam arrowFontColor #E0E0E0
+
+skinparam package {
+    BackgroundColor #252628
+    BorderColor #555555
+    FontColor #E0E0E0
+}
+
+skinparam component {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam database {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam cloud {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam rectangle {
+    BackgroundColor #2E3033
+    BorderColor #666666
+    FontColor #E0E0E0
+}
+
+skinparam title {
+    FontColor #E0E0E0
+}
 
 title 돌의 정령 챗봇 - 컴포넌트 다이어그램
 
