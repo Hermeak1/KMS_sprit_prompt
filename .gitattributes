@@ -1,0 +1,8 @@
+# Unity가 함께 설치한 패키지·설정 파일은 직접 작성한 코드가 아니므로
+# GitHub 언어 통계(Linguist)에서 제외한다.
+# 직접 작성한 Unity C# 스크립트는 그대로 집계된다.
+
+"unity/ArcanaScene/Assets/TextMesh Pro/**" linguist-vendored
+unity/ArcanaScene/Packages/**             linguist-vendored
+unity/ArcanaScene/ProjectSettings/**      linguist-vendored
+unity/ArcanaScene/.vs/**                  linguist-vendored
